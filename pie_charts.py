@@ -49,4 +49,5 @@ def pie_charts():
     plt.tight_layout()
     plt.show()
 
+pie_charts()
 

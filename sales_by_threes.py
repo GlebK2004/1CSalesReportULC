@@ -79,7 +79,7 @@ def sales_by_threes():
         sorted_product_dict = {k: v for k, v in sorted_product_dict.items() if v > 1}
 
         # Задайте список ключей, которые нужно удалить
-        keys_to_remove = ['Online - 1 инд (1р.)', '1 индивидуальное занятие (1р.)', 'Online - 1 инд ', 'VIP_вз']
+        keys_to_remove = ['Online - 1 инд (1р.)', '1 индивидуальное занятие (1р.)', 'VIP_вз']
 
         # Удаляем записи по указанным ключам
         for key in keys_to_remove:
