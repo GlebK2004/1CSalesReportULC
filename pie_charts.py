@@ -7,11 +7,10 @@ def pie_charts():
     non_online_sum = 0
     for name, values in data.items():
         total = sum(values)
-        if "сплит" not in name.lower():
-            if "online" in name.lower():
-                online_sum += total
-            else:
-                non_online_sum += total
+        if "online" in name.lower():
+            online_sum += total
+        else:
+            non_online_sum += total
 
     # Строим круговую диаграмму для Online/Offline
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))

@@ -20,7 +20,7 @@ def sales_by_threes():
         value = row['Цена']
         data1[name].append(value)
 
-    df = pd.read_excel('D:\\Глеб\\Underground\\Менеджеры графики\\Оплаты_08.2024.xls', header=0)
+    df = pd.read_excel('D:\\Глеб\\Underground\\Менеджеры графики\\25-30.11.24.xls', header=0)
     # Определяем группы
     trios = [
         ['Бровко Екатерина', 'Перхова Ангелина', 'Михалкин Виктор'],
@@ -130,6 +130,8 @@ def sales_by_threes():
     # Запись транспонированного DataFrame в файл Excel
     df_transposed.to_excel('product_dict_list_transposed.xlsx', header=False)
 
+
+sales_by_threes()
 
 
 
