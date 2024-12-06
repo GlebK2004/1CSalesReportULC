@@ -12,25 +12,28 @@ from data_file import data, df
 
 def sales_by_threes():
 
-    df1 = pd.read_excel('D:\\Глеб\\Underground\\Менеджеры графики\\Цены_на_продукты.xls', header=0)
+    df1 = pd.read_excel('D:\\Глеб\\Underground\\Менеджеры графики\\Цены_на_продукты06.12.xls', header=0)
     # Создаем словарь с парами имя - число
-    data1 = defaultdict(list)
+    dataPrice = {}
     for _, row in df1.iterrows():
         name = row['Номенклатура']
         value = row['Цена']
-        data1[name].append(value)
+        dataPrice[name] = value  # Сохраняем последнее значение для каждого имени
 
     df = pd.read_excel('D:\\Глеб\\Underground\\Менеджеры графики\\25-30.11.24.xls', header=0)
     # Определяем группы
     trios = [
-        ['Бровко Екатерина', 'Перхова Ангелина', 'Михалкин Виктор'],
-        ['Новосад Марина', 'Данилов Дмитрий', 'Мурзич Павлина'],
-        ['Зарецкая Юлия', 'Чудук Александр', 'Лавринович Ирина']
+        ['Аксёнова Екатерина', 'Михалкин Виктор', 'Перхова Ангелина'],
+        ['Ризаева Виктория', 'Неведомская Анастасия', 'Коробко Александр'],
+        ['Зарецкая Юлия', 'Чудук Александр', 'Данилов Дмитрий'],
+        ['Мурзич Павлина', 'Новосад Марина', 'Лавринович Ирина']
     ]
+
     new_names = [
-        'Михалкин | Перхова - Бровко',
-        'Данилов | Новосад - Мурзич',
-        'Чудук | Лавринович - Зарецкая'
+        'Михалкин и Перхова \n (Аксёнова)',
+        'Неведомская и Коробко \n (Ризаева)',
+        'Данилов и Чудук \n (Зарецкая)',
+        'Лавринович и Новосад \n (Мурзич)'
     ]
 
     # Создаем словарь с парами имя - список [число, заявка]
@@ -45,7 +48,7 @@ def sales_by_threes():
         data[name].append((value, request))  # Сохраняем сумму и заявку как кортеж
 
     # Получение массива всех уникальных значений столбца "Номенклатура абонемента"
-    unique_products = df["Номенклатура абонемента"].unique()
+    unique_products = df1["Номенклатура"].unique()
 
     # Итоговый двумерный массив
     product_dict_list = []
@@ -60,11 +63,12 @@ def sales_by_threes():
             for value, request in value_list:
                 if request in trio:
                     # Проверяем, есть ли цена для данного продукта в data1
-                    if key in data1:
-                        # Получаем половину цены (если есть)
-                        half_price = min(data1[key]) / 2  # Берем минимальную цену, если несколько
-                        if value > half_price:
-                            product_dict[key] += 1
+                    if key in dataPrice:
+                        if value != 1.00:
+                            if value / dataPrice[key] >= 0.6:
+                                product_dict[key] += 1
+                            else:
+                                product_dict[key] += round(value / dataPrice[key], 2)
 
         # Создание словаря с названиями строк и значениями
         result_dict = {key: product_dict[key] for key in product_dict}
@@ -79,7 +83,7 @@ def sales_by_threes():
         sorted_product_dict = {k: v for k, v in sorted_product_dict.items() if v > 1}
 
         # Задайте список ключей, которые нужно удалить
-        keys_to_remove = ['Online - 1 инд (1р.)', '1 индивидуальное занятие (1р.)', 'VIP_вз']
+        keys_to_remove = ['Online 1 инд. зан. (1р.)', '1 инд. зан. (1р.)']
 
         # Удаляем записи по указанным ключам
         for key in keys_to_remove:
@@ -117,7 +121,7 @@ def sales_by_threes():
 
         # Отображаем значения на столбцах
         for i, v in enumerate(display_values):
-            plt.text(v, i, str(v), color='black', va='center', fontsize=18)
+            plt.text(v, i, round(v, 2), color='black', va='center', fontsize=18)
 
         # Отображаем диаграмму
         plt.tight_layout()
@@ -127,9 +131,27 @@ def sales_by_threes():
     df = pd.DataFrame(product_dict_list)
     # Транспонирование DataFrame, чтобы строки стали столбцами и наоборот
     df_transposed = df.T
-    # Запись транспонированного DataFrame в файл Excel
-    df_transposed.to_excel('product_dict_list_transposed.xlsx', header=False)
+    # Создание заголовков для первых 5 столбцов
+    header = ['Продукт',
+              'Михалкин и Перхова',
+              'Неведомская и Коробко',
+              'Данилов и Чудук',
+              'Лавринович и Новосад']
+    # Проверяем количество столбцов и создаем заголовки
+    num_cols = len(df_transposed.columns)
+    if num_cols > 0:
+        # Используем заголовки, как только они соответствуют количеству столбцов
+        if num_cols <= len(header):
+            df_transposed.columns = header[:num_cols]  # Устанавливаем заголовки по количеству столбцов
+        else:
+            # Если заголовков больше, чем столбцов, добавляем пустые строки для остальных
+            df_transposed.columns = header + [''] * (num_cols - len(header))
+    # Запись заголовков в отдельный файл без индекса
+    header_df = pd.DataFrame(columns=header)
+    header_df.to_excel('product_dict_list_transposed.xlsx', header=False, index=False,  engine='openpyxl')
 
+    # Запись основного DataFrame с индексом
+    df_transposed.to_excel('product_dict_list_transposed.xlsx', header=True, index=True, engine='openpyxl')
 
 sales_by_threes()
 
