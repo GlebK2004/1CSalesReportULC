@@ -20,7 +20,7 @@ def sales_by_threes():
         value = row['Цена']
         dataPrice[name] = value  # Сохраняем последнее значение для каждого имени
 
-    df = pd.read_excel('D:\\Глеб\\Underground\\Менеджеры графики\\25-30.11.24.xls', header=0)
+    df = pd.read_excel('D:\\Глеб\\Underground\\Менеджеры графики\\Ноябрь24.xls', header=0)
     # Определяем группы
     trios = [
         ['Аксёнова Екатерина', 'Михалкин Виктор', 'Перхова Ангелина'],
