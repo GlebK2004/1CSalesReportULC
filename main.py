@@ -8,6 +8,7 @@ from pie_charts import pie_charts
 from products import products
 from sales_by_threes import sales_by_threes
 from total_income import total_income
+from chinese_bar import chinese_bar
 
 count_sales()
 all_managers()
@@ -15,6 +16,7 @@ pie_charts()
 total_income()
 sales_by_threes()
 products()
+chinese_bar()
 
 
 

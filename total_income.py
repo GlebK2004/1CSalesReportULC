@@ -73,6 +73,7 @@ def total_income():
     # Устанавливаем пределы для оси Y
     # plt.ylim(0, 230000)  # Устанавливаем максимальное значение на оси Y
     # Отображаем график
+    plt.savefig('sum_income.png', dpi=300, format='png', bbox_inches='tight')
     plt.show()
 
 

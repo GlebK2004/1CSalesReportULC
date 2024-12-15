@@ -55,7 +55,9 @@ def products_sum():
     fig.tight_layout()
 
     # Показываем диаграмму
+    plt.savefig('products_sum.png', dpi=300, format='png', bbox_inches='tight')
     plt.show()
+
 
 def products_count():
     df1 = pd.read_excel('D:\\Глеб\\Underground\\Менеджеры графики\\Цены_на_продукты06.12.xls', header=0)
@@ -109,15 +111,15 @@ def products_count():
 
     # Отображаем значения на столбцах в обратном порядке
     for i, v in enumerate(list(sorted_product_dict_summ.values())[:15]):
-        ax.text(v, list(reversed(list(sorted_product_dict_summ.keys())[:15]))[-(i + 1)], add_space_every_3_digits(v),
+        ax.text(v, list(reversed(list(sorted_product_dict_summ.keys())[:15]))[-(i + 1)], round(v, 2),
                 color='black', ha='left', va='center', fontsize=12)
 
     # Растягиваем диаграмму на всю фигуру
     fig.tight_layout()
 
     # Показываем диаграмму
+    plt.savefig('products_count.png', dpi=300, format='png', bbox_inches='tight')
     plt.show()
-
 
 products()
 

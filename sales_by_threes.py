@@ -20,7 +20,7 @@ def sales_by_threes():
         value = row['Цена']
         dataPrice[name] = value  # Сохраняем последнее значение для каждого имени
 
-    df = pd.read_excel('D:\\Глеб\\Underground\\Менеджеры графики\\Ноябрь24.xls', header=0)
+    df = pd.read_excel('D:\\Глеб\\Underground\\Менеджеры графики\\21-30Ноября24.xls', header=0)
     # Определяем группы
     trios = [
         ['Аксёнова Екатерина', 'Михалкин Виктор', 'Перхова Ангелина'],
@@ -117,7 +117,7 @@ def sales_by_threes():
         plt.yticks(range(len(display_products)), display_products, fontsize=16)
         plt.xlabel('Количество')
         name = new_names[i]
-        plt.title(f'Абонементы за месяц: {name}', fontsize=18)
+        plt.title(f'Абонементы за период: {name}', fontsize=18)
 
         # Отображаем значения на столбцах
         for i, v in enumerate(display_values):
@@ -125,6 +125,7 @@ def sales_by_threes():
 
         # Отображаем диаграмму
         plt.tight_layout()
+        plt.savefig(f'sales{trio}.png', dpi=300, format='png', bbox_inches='tight')
         plt.show()
 
     # Создание DataFrame из списка словарей

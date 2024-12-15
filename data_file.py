@@ -4,7 +4,7 @@ from collections import defaultdict
 import pandas as pd
 import matplotlib.pyplot as plt
 
-df = pd.read_excel('D:\\Глеб\\Underground\\Менеджеры графики\\Ноябрь24.xls', header=0)
+df = pd.read_excel('D:\\Глеб\\Underground\\Менеджеры графики\\21-30Ноября24.xls', header=0)
 
 data = defaultdict(list)
 for _, row in df.iterrows():

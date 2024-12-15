@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 from data_file import data
 
 def pie_charts():
+    import matplotlib.pyplot as plt
+
     # Подсчитываем суммы для абонементов с и без слова "Online"
     online_sum = 0
     non_online_sum = 0
@@ -13,17 +15,20 @@ def pie_charts():
             non_online_sum += total
 
     # Строим круговую диаграмму для Online/Offline
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
-    labels = ['Online', 'Offline']
-    sizes = [online_sum, non_online_sum]
-    patches, texts, autotexts = ax1.pie(sizes, labels=labels, autopct='%1.1f%%')
-    # Increase the size of the labels and values
-    for t in texts:
+    fig1, ax1 = plt.subplots(figsize=(6, 6.2))
+    labels1 = ['Online', 'Offline']
+    sizes1 = [online_sum, non_online_sum]
+    patches1, texts1, autotexts1 = ax1.pie(sizes1, labels=labels1, autopct='%1.1f%%', startangle=90)
+    # Увеличиваем размер меток и значений
+    for t in texts1:
         t.set_fontsize(14)
-    for t in autotexts:
+    for t in autotexts1:
         t.set_fontsize(14)
     ax1.axis('equal')
-    ax1.set_title('Распределение доходов по Online/Offline')
+    ax1.set_title('Распределение дохода по формату абонементов', fontsize=16)
+    plt.tight_layout()
+    plt.savefig('online_offline_distribution.png', dpi=300, format='png')
+    plt.show()
 
     # Подсчитываем суммы для абонементов с и без слова "инд"
     group_sum = 0
@@ -36,18 +41,21 @@ def pie_charts():
             group_sum += total
 
     # Строим круговую диаграмму для Групповые/Индивидуальные
-    labels = ['Индивидуальные', 'Групповые']
-    sizes = [individual_sum, group_sum]
-    patches, texts, autotexts = ax2.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
-    # Increase the size of the labels and values
-    for t in texts:
+    fig2, ax2 = plt.subplots(figsize=(6, 6.2))
+    labels2 = ['Инд', 'Групп']
+    sizes2 = [individual_sum, group_sum]
+    patches2, texts2, autotexts2 = ax2.pie(sizes2, labels=labels2, autopct='%1.1f%%', startangle=70)
+    # Увеличиваем размер меток и значений
+    for t in texts2:
         t.set_fontsize(14)
-    for t in autotexts:
+    for t in autotexts2:
         t.set_fontsize(14)
     ax2.axis('equal')
-    ax2.set_title('Распределение доходов по типам абонементов')
+    ax2.set_title('Распределение дохода по типу абонементов', fontsize=16)
     plt.tight_layout()
+    plt.savefig('individual_group_distribution.png', dpi=300, format='png')
     plt.show()
+
 
 pie_charts()
 
